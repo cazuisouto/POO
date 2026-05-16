@@ -49,7 +49,7 @@ class Produto:
             "preco": self.get_preco(),
             "estoque": self.get_estoque(),
             "id_categoria": self.get_id_categoria()
-        })
+        }, ensure_ascii=False)
     
 
 class ProdutoDAO: #persistência de dados
