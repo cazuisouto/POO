@@ -63,6 +63,7 @@ class Cliente:
 
         @classmethod
         def abrir(cls):
+            cls.objetos = []
             try:
                 with open("clientes.json", "r") as arquivo:
                     dados = json.load(arquivo)
