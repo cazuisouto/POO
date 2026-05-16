@@ -34,6 +34,7 @@ class CategoriaDAO: #persistência de dados
 
     @classmethod
     def abrir(cls):
+        cls.objetos = []
         try:
             with open("categorias.json", "r") as arquivo:
                 dados = json.load(arquivo)
