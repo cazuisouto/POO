@@ -55,7 +55,7 @@ class Cliente:
             "email": self.get_email(),
             "fone": self.get_fone(),
             "senha": self.get_senha()
-        })
+        }, ensure_ascii=False)
     
 
 class ClienteDAO:
