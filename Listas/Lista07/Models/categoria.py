@@ -27,7 +27,7 @@ class Categoria:
         return json.dumps({
             "id": self.get_id(),
             "descricao": self.get_descricao()
-        })
+        }, ensure_ascii=False)
 
 class CategoriaDAO: #persistência de dados 
     objetos = []
