@@ -58,71 +58,70 @@ class Cliente:
         })
     
 
-    class ClienteDAO:
-        objetos = []
-
-        @classmethod
-        def abrir(cls):
+class ClienteDAO:
+    objetos = []
+    @classmethod
+    def abrir(cls):
+        cls.objetos = []
+        try:
+            with open("clientes.json", "r") as arquivo:
+                dados = json.load(arquivo)
+                for obj in dados:
+                    cliente = Cliente(obj["id"], obj["nome"], obj["email"], obj["fone"], obj["senha"])
+                    cls.objetos.append(cliente)
+        except FileNotFoundError:
             cls.objetos = []
-            try:
-                with open("clientes.json", "r") as arquivo:
-                    dados = json.load(arquivo)
-                    for obj in dados:
-                        cliente = Cliente(obj["id"], obj["nome"], obj["email"], obj["fone"], obj["senha"])
-                        cls.objetos.append(cliente)
-            except FileNotFoundError:
-                cls.objetos = []
 
-        @classmethod
-        def salvar(cls):
-            with open("clientes.json", "w") as arquivo:
-                json.dump(cls.objetos,arquivo, default= Cliente.to_json)
+    @classmethod
+    def salvar(cls):
+        with open("clientes.json", "w") as arquivo:
+            json.dump(cls.objetos,arquivo, default= Cliente.to_json)
 
-        @classmethod
-        def inserir(cls, obj):
-            cls.abrir()
+    @classmethod
+    def inserir(cls, obj):
+        cls.abrir()
 
-            if len(cls.objetos) == 0: 
-                id = 1
-            else:
-                id = max(cls.objetos, key = lambda x : x.get_id()).get_id() + 1
+        if len(cls.objetos) == 0: 
+            id = 1
+        else:
+            id = max(cls.objetos, key = lambda x : x.get_id()).get_id() + 1
 
-            obj.set_id(id)
-            cls.objetos.append(obj)
+        obj.set_id(id)
+        cls.objetos.append(obj)
+        cls.salvar()
+
+    @classmethod
+    def listar(cls):
+        cls.abrir()
+        cls.objetos.sort(key = lambda x : x.get_nome())
+        return cls.objetos
+        
+    @classmethod
+    def listar_id(cls, id):
+        cls.abrir()
+        for obj in cls.objetos:
+            if obj.get_id() == id:
+                return obj
+        return None
+        
+    @classmethod
+    def atualizar(cls, obj):
+        x = cls.listar_id(obj.get_id()) 
+        if x != None:
+            x.set_nome(obj.get_nome())
+            x.set_email(obj.get_email())
+            x.set_fone(obj.get_fone())
+            x.set_senha(obj.get_senha())
             cls.salvar()
-
-        @classmethod
-        def listar(cls):
-            cls.abrir()
-            cls.objetos.sort(key = lambda x : x.get_nome())
-            return cls.objetos
-        
-        @classmethod
-        def listar_id(cls, id):
-            cls.abrir()
-            for obj in cls.objetos:
-                if obj.get_id() == id:
-                    return obj
-            return None
-        
-        @classmethod
-        def atualizar(cls, obj):
-            x = cls.listar_id(obj.get_id()) 
-            if x != None:
-                x.set_nome(obj.get_nome())
-                x.set_email(obj.get_email())
-                x.set_fone(obj.get_fone())
-                x.set_senha(obj.get_senha())
-                cls.salvar()
-            else:
-                raise ValueError("Cliente não encontrado.")
+        else:
+            raise ValueError("Cliente não encontrado.")
             
-        @classmethod
-        def excluir(cls, id):
-            x = cls.listar_id(id)
-            if x != None:
-                cls.objetos.remove(x)
-                cls.salvar()
-            else:
-                raise ValueError("Cliente não encontrado.")
+    @classmethod
+    def excluir(cls, id):
+        x = cls.listar_id(id)
+        if x != None:
+            cls.objetos.remove(x)
+            cls.salvar()
+        else:
+            raise ValueError("Cliente não encontrado.")
             
