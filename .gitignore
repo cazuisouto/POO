@@ -1,0 +1,24 @@
+#Ignora configurações do VS Code
+.vscode/
+
+#Ignora arquivos de log, arquivos temporários e backups
+*.log
+*.tmp
+
+#Cache python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd  
+.mypy_cache/
+
+#Ignora arquivos de configuração do ambiente virtual
+venv/
+env/
+
+#Ignora arquivos json
+*.json
+
+#Ignora arquivos de configuração do sistema operacional
+.DS_Store
+Thumbs.db
