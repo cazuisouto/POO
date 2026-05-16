@@ -71,4 +71,48 @@ class ProdutoDAO: #persistência de dados
     def salvar(cls):
         with open("produtos.json", "w") as arquivo:
             json.dump(cls.objetos,arquivo, default= Produto.to_json)
+
+    @classmethod
+    def inserir(cls, obj):
+        if len(cls.objetos) == 0:
+            id = 1
+        else:
+            id = max(cls.objetos, key = lambda x : x.get_id()).get_id() + 1
+
+        obj.set_id(id)
+        cls.objetos.append(obj)
+        cls.salvar()
+
+    @classmethod
+    def listar(cls):
+        cls.abrir()
+        return cls.objetos
+    
+    @classmethod
+    def listar_id(cls, id):
+        cls.abrir()
+        for obj in cls.objetos:
+            if obj.get_id() == id:
+                return obj
+        return None
+    
+    @classmethod
+    def atualizar(cls, obj):
+        x = cls.listar_id(obj.get_id()) 
+        if x != None:
+            x.set_descricao(obj.get_descricao())
+            x.set_preco(obj.get_preco())
+            x.set_estoque(obj.get_estoque())
+            x.set_id_categoria(obj.get_id_categoria())
+            cls.salvar()
+        else: raise ValueError("Produto não encontrado para atualização.")
+
+    @classmethod
+    def excluir(cls, id):
+        x = cls.listar_id(id)
+        if x != None:
+            cls.objetos.remove(x)
+            cls.salvar()
+        else: raise ValueError("Produto não encontrado para exclusão.")
+        
       
