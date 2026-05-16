@@ -50,6 +50,7 @@ class FavoritosDAO: #persistência de dados
 
     @classmethod
     def abrir(cls):
+        cls.objetos = []
         try:
             with open("favoritos.json", "r") as arquivo:
                 dados = json.load(arquivo)
