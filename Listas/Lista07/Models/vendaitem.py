@@ -48,7 +48,7 @@ class VendaItem:
             "preco": self.get_preco(),
             "id_venda": self.get_id_venda(),
             "id_produto": self.get_id_produto()
-        })
+        }, ensure_ascii=False)
     
 class VendaItemDAO: #persistência de dados
     objetos = []
