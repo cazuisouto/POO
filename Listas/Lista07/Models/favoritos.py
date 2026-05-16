@@ -42,7 +42,7 @@ class Favoritos:
             "descricao": self.get_descricao(),
             "cliente_id": self.get_cliente_id(),
             "categoria_id": self.get_categoria_id()
-        })
+        }, ensure_ascii=False)
     
 
 class FavoritosDAO: #persistência de dados 
